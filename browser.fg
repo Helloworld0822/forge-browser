@@ -22,7 +22,7 @@ fn attr(node: int,name: string,value: string): int{return fb_attr(node,name,valu
 fn clear(node: int): int{return fb_clear(node);}
 fn find(id: string): int{return fb_find(id);}
 fn value(id: string): string{return fb_value(id);}
-fn on(node: int,event: string,callback: int,context: string): int{return fb_on(node,event,callback,context);}
+fn listen(node: int,event: string,callback: int,context: string): int{return fb_on(node,event,callback,context);}
 fn request(path: string,method: string,body: string,token: string,callback: int,context: string): int{return fb_request(path,method,body,token,callback,context);}
 fn path(): string{return fb_path();}
 fn navigate(path: string,callback: int): int{return fb_navigate(path,callback);}
