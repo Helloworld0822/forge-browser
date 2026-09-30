@@ -1,6 +1,6 @@
 {
   "name": "forge-browser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Forge DOM, browser events, same-origin HTTP, scoped lossless JSON and sanitized Markdown.",
   "repository_url": "https://github.com/Helloworld0822/forge-browser",
   "module": "browser.fg",
