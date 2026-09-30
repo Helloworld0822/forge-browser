@@ -1,0 +1,15 @@
+{
+  "name": "forge-browser",
+  "version": "0.1.0",
+  "description": "Forge DOM, browser events, same-origin HTTP, scoped lossless JSON and sanitized Markdown.",
+  "repository_url": "https://github.com/Helloworld0822/forge-browser",
+  "module": "browser.fg",
+  "license": "MIT",
+  "dependencies": {
+    "forge-web": "0.1.1"
+  },
+  "javascript": {
+    "entry": "src/bridge.js",
+    "package_file": "package.json"
+  }
+}
