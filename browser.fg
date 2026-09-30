@@ -1,0 +1,36 @@
+extern fn fb_root(): int;
+extern fn fb_el(parent: int,tag: string,text: string,classes: string): int;
+extern fn fb_attr(node: int,name: string,value: string): int;
+extern fn fb_clear(node: int): int;
+extern fn fb_find(id: string): int;
+extern fn fb_value(id: string): string;
+extern fn fb_on(node: int,event: string,callback: int,context: string): int;
+extern fn fb_request(path: string,method: string,body: string,token: string,callback: int,context: string): int;
+extern fn fb_path(): string;
+extern fn fb_navigate(path: string,callback: int): int;
+extern fn fb_start(callback: int): int;
+extern fn fb_store(key: string,value: string): int;
+extern fn fb_load(key: string): string;
+extern fn fb_markdown(parent: int,text: string): int;
+extern fn fb_upload(id: string,path: string,token: string,callback: int,context: string): int;
+extern fn fb_download(name: string,text: string): int;
+extern fn fb_reload(): int;
+extern fn fb_origin(): string;
+fn root(): int{return fb_root();}
+fn el(parent: int,tag: string,text: string,classes: string): int{return fb_el(parent,tag,text,classes);}
+fn attr(node: int,name: string,value: string): int{return fb_attr(node,name,value);}
+fn clear(node: int): int{return fb_clear(node);}
+fn find(id: string): int{return fb_find(id);}
+fn value(id: string): string{return fb_value(id);}
+fn on(node: int,event: string,callback: int,context: string): int{return fb_on(node,event,callback,context);}
+fn request(path: string,method: string,body: string,token: string,callback: int,context: string): int{return fb_request(path,method,body,token,callback,context);}
+fn path(): string{return fb_path();}
+fn navigate(path: string,callback: int): int{return fb_navigate(path,callback);}
+fn start(callback: int): int{return fb_start(callback);}
+fn store(key: string,value: string): int{return fb_store(key,value);}
+fn load(key: string): string{return fb_load(key);}
+fn markdown(parent: int,text: string): int{return fb_markdown(parent,text);}
+fn upload(id: string,path: string,token: string,callback: int,context: string): int{return fb_upload(id,path,token,callback,context);}
+fn download(name: string,text: string): int{return fb_download(name,text);}
+fn reload(): int{return fb_reload();}
+fn origin(): string{return fb_origin();}
