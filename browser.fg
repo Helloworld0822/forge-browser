@@ -34,3 +34,6 @@ fn upload(id: string,path: string,token: string,callback: int,context: string): 
 fn download(name: string,text: string): int{return fb_download(name,text);}
 fn reload(): int{return fb_reload();}
 fn origin(): string{return fb_origin();}
+
+extern fn fb_claims(token: string): int;
+fn claims(token: string): int{return fb_claims(token);}

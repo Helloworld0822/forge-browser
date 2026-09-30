@@ -22,6 +22,8 @@ async function request(path,method,body,token,fn,context){
  return 1n;
 }
 export const native={
+ fw_uuid:()=>crypto.randomUUID(),fw_now:()=>BigInt(Math.floor(Date.now()/1000)),
+ fb_claims:token=>{try{return handle(parseJSON(new TextDecoder().decode(Uint8Array.from(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0)))))}catch{return 0n}},
  fw_scope_begin:()=>0n,fw_scope_end:()=>0n,fw_parse:s=>{try{return handle(parseJSON(s))}catch{return 0n}},fw_kind:h=>kind(val(h)),
  fw_get:(h,k)=>handle(val(h)?.[k]),fw_at:(h,i)=>handle(val(h)?.[Number(i)]),fw_count:h=>BigInt(Array.isArray(val(h))?val(h).length:val(h)&&typeof val(h)==='object'?Object.keys(val(h)).length:0),
  fw_text:h=>typeof val(h)==='string'?val(h):'',fw_integer:h=>number(val(h)),fw_boolean:h=>val(h)?1n:0n,fw_dump:h=>stringify(val(h)),
@@ -30,7 +32,7 @@ export const native={
  fw_push:(h,c)=>{const a=val(h);if(!Array.isArray(a))return 0n;a.push(val(c));return 1n},fw_keys:h=>handle(Object.keys(val(h)??{})),fw_has:(h,k)=>Object.hasOwn(val(h)??{},k)?1n:0n,
  fw_trim:s=>s.trim(),fw_chars:s=>BigInt(Array.from(s).length),fw_lower:s=>s.toLowerCase(),fw_equal:(a,b)=>a===b?1n:0n,fw_starts:(a,b)=>a.startsWith(b)?1n:0n,
  fb_root:()=>dom(document.getElementById('app')),fb_el:(parent,tag,text,classes)=>{if(!/^(div|section|article|header|footer|nav|main|h[1-6]|p|span|a|button|label|input|textarea|select|option|form|pre|code|ul|li|table|thead|tbody|tr|th|td|details|summary|img|br|hr)$/.test(tag))throw new Error('Unsupported DOM tag');const n=document.createElement(tag);n.textContent=text;n.className=classes;node(parent).append(n);return dom(n)},
- fb_attr:(h,key,value)=>{if(/^on/i.test(key)||['innerHTML','srcdoc','style'].includes(key))throw new Error('Unsafe DOM attribute');if(key==='href'||key==='src')safeUrl(value);node(h).setAttribute(key,value);return 1n},
+ fb_attr:(h,key,value)=>{if(/^on/i.test(key)||['innerHTML','srcdoc','style'].includes(key))throw new Error('Unsafe DOM attribute');if(key==='href'||key==='src')safeUrl(value);node(h).setAttribute(key,value);if(key==='value'&&'value' in node(h))node(h).value=value;return 1n},
  fb_clear:h=>{const n=node(h);for(const child of n.childNodes)release(child);n.replaceChildren();return 1n},fb_find:id=>dom(document.getElementById(id)),fb_value:id=>{const n=document.getElementById(id);return n?.type==='checkbox'?(n.checked?'true':'false'):n?.value??''},
  fb_on:(h,event,fn,context)=>{node(h).addEventListener(event,e=>{if(event==='click'||event==='submit')e.preventDefault();scoped(()=>fn(context))});return 1n},
  fb_request:(...args)=>{void request(...args);return 1n},fb_path:()=>location.pathname,
