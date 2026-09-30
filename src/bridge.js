@@ -1,7 +1,7 @@
 import {parse,stringify,parseNumberAndBigInt} from 'lossless-json';
 import {marked} from 'marked';
 import DOMPurify from 'dompurify';
-const values=new Map(),nodes=new Map(),reverse=new WeakMap();let next=1n;
+const values=new Map(),nodes=new Map(),reverse=new WeakMap(),state=new Map();let next=1n;
 const handle=v=>{if(v===null||v===undefined)return 0n;const h=next++;values.set(h,v);return h};
 const val=h=>values.get(h)??null;
 const node=h=>{const n=nodes.get(h);if(!n)throw new Error('Invalid DOM handle');return n};
@@ -43,6 +43,7 @@ export const native={
  fb_request:(...args)=>{void request(...args);return 1n},fb_path:()=>location.pathname,
  fb_navigate:(path,fn)=>{const u=new URL(path,location.origin);if(u.origin!==location.origin)throw new Error('Navigation origin mismatch');history.pushState({},'',u.pathname+u.search);scoped(()=>fn(''));return 1n},
  fb_start:fn=>{const token=new URLSearchParams(location.hash.slice(1)).get('token');if(token){localStorage.setItem('auth_token',token);history.replaceState({},'',location.pathname)}window.addEventListener('popstate',()=>scoped(()=>fn('')));scoped(()=>fn(''));return 1n},
+ fb_state:(k,v)=>{if(v)state.set(k,v);else state.delete(k);return 1n},fb_state_get:k=>state.get(k)??'',
  fb_store:(k,v)=>{if(v)localStorage.setItem(k,v);else localStorage.removeItem(k);return 1n},fb_load:k=>localStorage.getItem(k)??'',
  fb_markdown:(h,text)=>{const n=document.createElement('div');n.className='markdown';n.innerHTML=DOMPurify.sanitize(marked.parse(text,{async:false}));node(h).append(n);return dom(n)},
  fb_upload:(id,path,token,fn,context)=>{const file=document.getElementById(id)?.files?.[0];if(!file||file.size>20*1024*1024){callback(fn,context,0,null,'Choose one file up to 20 MiB');return 0n}const data=new FormData();data.append('file',file);void fetch(checkedPath(path),{method:'POST',headers:token?{Authorization:`Bearer ${token}`}:{},body:data,signal:AbortSignal.timeout(30000)}).then(async r=>callback(fn,context,r.status,parseJSON(await readBody(r)))).catch(e=>callback(fn,context,0,null,String(e)));return 1n},

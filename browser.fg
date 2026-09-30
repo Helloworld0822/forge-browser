@@ -37,3 +37,8 @@ fn origin(): string{return fb_origin();}
 
 extern fn fb_claims(token: string): int;
 fn claims(token: string): int{return fb_claims(token);}
+
+extern fn fb_state(key: string,value: string): int;
+extern fn fb_state_get(key: string): string;
+fn state(key: string,value: string): int{return fb_state(key,value);}
+fn state_get(key: string): string{return fb_state_get(key);}
